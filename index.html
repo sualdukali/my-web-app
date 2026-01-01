@@ -86,7 +86,7 @@ async function search() {
   status.textContent = 'جاري البحث...';
 
   const { data } = await supabaseClient
-    .from('records')
+    .from('employees')
     .select('*')
     .eq('national_id', value)
     .limit(1);
