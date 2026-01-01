@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>نظام الاستعلام</title>
+  <style>
+    body { font-family: "Segoe UI", Tahoma, Arial, sans-serif; background: #f4f6f8; margin: 0; padding: 0; }
+    .header { background: #2563eb; color: white; padding: 20px; text-align: center; }
+    .header img { height: 60px; vertical-align: middle; margin-left: 15px; }
+    .container { max-width: 1000px; margin: 20px auto; background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+    h2 { text-align: center; margin-bottom: 25px; }
+    .search-box { display: flex; gap: 10px; margin-bottom: 20px; }
+    input, button { padding: 10px; font-size: 16px; }
+    input { flex: 1; }
+    button { background: #2563eb; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+    .section { margin-top: 30px; }
+    .section h3 { background: #2563eb; color: #fff; padding: 10px; border-radius: 5px; margin-bottom: 10px; font-size: 16px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: right; }
+    th { background: #f1f5f9; width: 35%; }
+    .footer { text-align: center; background: #2563eb; color: white; padding: 15px; margin-top: 30px; font-size: 14px; border-top-left-radius: 10px; border-top-right-radius: 10px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Coat_of_arms_of_Libya.svg/1200px-Coat_of_arms_of_Libya.svg.png" alt="شعار ليبيا">
+  <div style="display:inline-block; vertical-align:middle;">
+    دولة ليبيا – وزارة التربية والتعليم – مراقبة التعليم سبها
+  </div>
+</div>
+
+<div class="container">
+  <h2>نظام الاستعلام بالرقم الوطني</h2>
+
+  <div class="search-box">
+    <input id="idinta" placeholder="أدخل الرقم الوطني">
+    <button onclick="search()">بحث</button>
+  </div>
+
+  <div id="status"></div>
+  <div id="result"></div>
+</div>
+
+<div class="footer">
+  مكتب المعلومات والتوثيق – جميع الحقوق محفوظة – su.aldukali
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const supabaseClient = supabase.createClient(
+  'https://jujcyvfbwqigsogqzdmy.supabase.co',
+  'sb_publishable_mn-ugtkCjUsSV0X1bctEkw_9GhVILhS'
+);
+
+const groups = {
+  "البيانات الشخصية": [
+    'educational_id','full_name','national_id','gender','date_of_birth','marital_status','financial_number','mothers_name','nationality'
+  ],
+  "البيانات العلمية": [
+    'graduated_university','graduation_date','education_type','academic_qualification','specialization','institution_name'
+  ],
+  "البيانات الوظيفية": [
+    'employment_type','appointment_year','date_of_obtaining_grade','start_date','employment_status','appointment_grade','current_grade','job_title','place_of_residence','place_of_birth'
+  ],
+  "البيانات المالية": [
+    'bank','bank_branch'
+  ]
+};
+
+const labels = {
+  educational_id:'الرقم التعليمي', full_name:'الاسم الكامل', national_id:'الرقم الوطني',
+  gender:'الجنس', date_of_birth:'تاريخ الميلاد', marital_status:'الحالة الاجتماعية', financial_number:'الرقم المالي',
+  mothers_name:'اسم الأم', nationality:'الجنسية',
+  graduated_university:'الجامعة', graduation_date:'تاريخ التخرج', education_type:'نوع التعليم', academic_qualification:'المؤهل', specialization:'التخصص', institution_name:'المؤسسة التعليمية',
+  employment_type:'نوع الوظيفة', appointment_year:'سنة التعيين', date_of_obtaining_grade:'تاريخ الحصول على الدرجة', start_date:'تاريخ المباشرة', employment_status:'حالة الوظيفة', appointment_grade:'درجة التعيين', current_grade:'الدرجة الحالية', job_title:'المسمى الوظيفي', place_of_residence:'مكان الإقامة', place_of_birth:'مكان الميلاد',
+  bank:'المصرف', bank_branch:'فرع المصرف'
+};
+
+async function search() {
+  const value = document.getElementById('idinta').value.trim();
+  const result = document.getElementById('result');
+  const status = document.getElementById('status');
+
+  result.innerHTML = '';
+  status.textContent = 'جاري البحث...';
+
+  const { data } = await supabaseClient
+    .from('records')
+    .select('*')
+    .eq('national_id', value)
+    .limit(1);
+
+  if (!data || data.length === 0) {
+    status.textContent = 'لا توجد بيانات';
+    return;
+  }
+
+  const row = data[0];
+  status.textContent = '';
+
+  let html = '';
+  for (const section in groups) {
+    html += `<div class="section"><h3>${section}</h3><table>`;
+    groups[section].forEach(key => {
+      html += `
+        <tr>
+          <th>${labels[key] || key}</th>
+          <td>${row[key] ?? ''}</td>
+        </tr>
+      `;
+    });
+    html += '</table></div>';
+  }
+
+  result.innerHTML = html;
+}
+</script>
+
+</body>
+</html>
