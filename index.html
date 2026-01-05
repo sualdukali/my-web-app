@@ -42,12 +42,11 @@
 
     .section { margin-top: 30px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; }
     .section h3 { background: #2563eb; color: #fff; padding: 12px; margin: 0; font-size: 16px; }
-    table { width: 100%; border-collapse: collapse; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
     th, td { border: 1px solid #ddd; padding: 8px; text-align: right; }
     th { background: #f1f5f9; width: 35%; color: #1e293b; }
     td { color: #1e293b; }
 
-    /* إعادة تنسيق التذييل الأصلي */
     .footer { 
       text-align: center; 
       background: linear-gradient(180deg, #ffffff 0%, #eef6ff 100%); 
@@ -104,9 +103,12 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  // تعبئة قوائم التاريخ
+  // تعبئة قوائم التاريخ مع ضمان الصفر البادئ (01, 02, ...)
   const daySelect = document.getElementById('dob_day');
-  for (let i = 1; i <= 31; i++) daySelect.options.add(new Option(i, i < 10 ? '0' + i : i));
+  for (let i = 1; i <= 31; i++) {
+    const val = i < 10 ? '0' + i : i.toString();
+    daySelect.options.add(new Option(val, val));
+  }
 
   const monthSelect = document.getElementById('dob_month');
   const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
@@ -114,13 +116,16 @@
 
   const yearSelect = document.getElementById('dob_year');
   const currentYear = new Date().getFullYear();
-  for (let i = currentYear - 18; i >= 1950; i--) yearSelect.options.add(new Option(i, i));
+  for (let i = currentYear - 15; i >= 1950; i--) {
+    yearSelect.options.add(new Option(i, i.toString()));
+  }
 
   const supabaseClient = supabase.createClient(
     'https://jujcyvfbwqigsogqzdmy.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1amN5dmZid3FpZ3NvZ3F6ZG15Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY1OTg4MzYsImV4cCI6MjA4MjE3NDgzNn0.M4oxRBsS8EdrCiAhIP2XV7SmS8vDcfoCGoFzyjF7Ndk'
   );
 
+  // تم حذف 'financial_number' من المجموعات ومن التسميات تماماً
   const groups = {
     "البيانات الشخصية": ['full_name', 'national_id', 'gender', 'date_of_birth', 'marital_status', 'mothers_name', 'nationality'],
     "البيانات العلمية": ['graduated_university', 'graduation_date', 'education_type', 'academic_qualification', 'specialization', 'institution_name'],
@@ -152,7 +157,7 @@
       return;
     }
 
-    // استخدام / ليتطابق مع تنسيق قاعدة البيانات لديك
+    // التنسيق المطابق لقاعدة بياناتك: YYYY/MM/DD (مع الأصفار البادئة)
     const selectedDob = `<LaTex>${year}/$</LaTex>{month}/${day}`;
     
     resultDiv.innerHTML = '';
@@ -193,6 +198,3 @@
 </script>
 </body>
 </html>
-
-
-
