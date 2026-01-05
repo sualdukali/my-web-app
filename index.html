@@ -2,174 +2,182 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>نظام الاستعلام</title>
+  <title>نظام الاستعلام - مدرسة خديجة الكبرى</title>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: "Segoe UI", Tahoma, Arial, sans-serif; background: #f4f6f8; margin: 0; padding: 0; }
+    body { font-family: 'Tajawal', "Segoe UI", Tahoma, Arial, sans-serif; background: #f4f6f8; margin: 0; padding: 0; }
     .header { 
-  background: #2563eb; 
-  color: white; 
-  padding: 15px 20px; 
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  font-family: 'Tajawal', 'Segoe UI', Tahoma, Arial, sans-serif;
-}
+      background: #2563eb; 
+      color: white; 
+      padding: 15px 20px; 
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    .header img { height: 80px; width: auto; object-fit: contain; }
+    .header-text { line-height: 1.5; text-align: center; }
+    .header-text div:first-child { font-size: 20px; font-weight: bold; }
+    .header-text div:nth-child(2) { font-size: 18px; font-weight: bold; }
+    .header-text div:last-child { font-size: 16px; font-weight: 500; }
 
-.header img { 
-  height: 80px; 
-  width: auto;
-  object-fit: contain;
-}
+    .container { max-width: 800px; margin: 20px auto; background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+    h2 { text-align: center; margin-bottom: 25px; color: #1e40af; }
+    
+    .search-container { background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 20px; }
+    .input-group { margin-bottom: 15px; }
+    .input-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #475569; }
+    .input-group input, .input-group select { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 16px; box-sizing: border-box; }
+    
+    .dob-group { display: flex; gap: 10px; }
+    .dob-group select { flex: 1; }
 
-.header-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+    button { width: 100%; background: #2563eb; color: #fff; border: none; border-radius: 6px; padding: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: background 0.3s; }
+    button:hover { background: #1d4ed8; }
 
-.header-text {
-  font-family: 'Tajawal', 'Segoe UI', Tahoma, Arial, sans-serif;
-  line-height: 1.5;
-  text-align: center;
-}
+    #status { text-align: center; margin-top: 15px; font-weight: bold; }
+    .error { color: #dc2626; background: #fee2e2; padding: 10px; border-radius: 5px; border: 1px solid #fecaca; }
+    .loading { color: #2563eb; }
 
-.header-text div:first-child {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 3px;
-}
+    .section { margin-top: 30px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; }
+    .section h3 { background: #2563eb; color: #fff; padding: 12px; margin: 0; font-size: 16px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border-bottom: 1px solid #e2e8f0; padding: 12px; text-align: right; }
+    th { background: #f8fafc; width: 40%; color: #64748b; font-weight: 600; }
+    td { color: #1e293b; font-weight: 500; }
+    tr:last-child td, tr:last-child th { border-bottom: none; }
 
-.header-text div:nth-child(2) {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 3px;
-}
-
-.header-text div:last-child {
-  font-size: 16px;
-  font-weight: 500;
-}
-    .container { max-width: 1000px; margin: 20px auto; background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
-    h2 { text-align: center; margin-bottom: 25px; }
-    .search-box { display: flex; gap: 10px; margin-bottom: 20px; }
-    input, button { padding: 10px; font-size: 16px; }
-    input { flex: 1; }
-    button { background: #2563eb; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
-    .section { margin-top: 30px; }
-    .section h3 { background: #2563eb; color: #fff; padding: 10px; border-radius: 5px; margin-bottom: 10px; font-size: 16px; }
-    table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    th, td { border: 1px solid #ddd; padding: 8px; text-align: right; }
-    th { background: #f1f5f9; width: 35%; }
-    .footer { text-align: center; background: linear-gradient(180deg, #ffffff 0%, #eef6ff 100%); color: #2563eb; padding: 8px 12px; margin-top: 30px; font-size: 13px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
-    .footer p { margin: 0; display: inline-flex; align-items: center; gap: 6px; }
-    .footer img { height: 34px; width: auto; vertical-align: middle; }
+    .footer { text-align: center; padding: 20px; color: #2563eb; font-size: 14px; }
+    .footer img { height: 30px; vertical-align: middle; margin-right: 5px; }
   </style>
 </head>
 <body>
 
 <div class="header">
   <img src="education-logo.png" alt="شعار وزارة التربية والتعليم">
-  <div class="header-content">
-    <div class="header-text">
-      <div>دولة ليبيا</div>
-      <div>مراقبة التعليم سبها</div>
-      <div>مدرسة خديجة الكبري </div>
-    </div>
+  <div class="header-text">
+    <div>دولة ليبيا</div>
+    <div>مراقبة التعليم سبها</div>
+    <div>مدرسة خديجة الكبرى</div>
   </div>
 </div>
 
 <div class="container">
-  <h2>نظام الاستعلام بالرقم الوطني</h2>
+  <h2>نظام الاستعلام عن البيانات</h2>
 
-  <div class="search-box">
-    <input id="idinta" placeholder="أدخل الرقم الوطني">
-    <button onclick="search()">بحث</button>
+  <div class="search-container">
+    <div class="input-group">
+      <label>الرقم الوطني</label>
+      <input id="national_id" type="text" placeholder="أدخل الرقم الوطني المكون من 12 رقم">
+    </div>
+
+    <div class="input-group">
+      <label>تاريخ الميلاد</label>
+      <div class="dob-group">
+        <select id="dob_day"><option value="">اليوم</option></select>
+        <select id="dob_month"><option value="">الشهر</option></select>
+        <select id="dob_year"><option value="">السنة</option></select>
+      </div>
+    </div>
+
+    <button onclick="search()">استعلام الآن</button>
+    <div id="status"></div>
   </div>
 
-  <div id="status"></div>
   <div id="result"></div>
 </div>
 
 <div class="footer">
- <p> تم التطوير بواسطة  <img src="suaad.png" alt="شعار Suaad"> </p>
-
+  <p>تم التطوير بواسطة <img src="suaad.png" alt="Suaad"></p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const supabaseClient = supabase.createClient(
-  'https://jujcyvfbwqigsogqzdmy.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1amN5dmZid3FpZ3NvZ3F6ZG15Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY1OTg4MzYsImV4cCI6MjA4MjE3NDgzNn0.M4oxRBsS8EdrCiAhIP2XV7SmS8vDcfoCGoFzyjF7Ndk'
-);
+  // تعبئة قوائم التاريخ
+  const daySelect = document.getElementById('dob_day');
+  for (let i = 1; i <= 31; i++) daySelect.options.add(new Option(i, i < 10 ? '0' + i : i));
 
-const groups = {
-  "البيانات الشخصية": [
-    'full_name','national_id','gender','date_of_birth','marital_status','financial_number','mothers_name','nationality'
-  ],
-  "البيانات العلمية": [
-    'graduated_university','graduation_date','education_type','academic_qualification','specialization','institution_name'
-  ],
-  "البيانات الوظيفية": [
-    'employment_type','appointment_year','start_date','employment_status','job_title','appointment_grade','current_grade','date_of_obtaining_grade','place_of_residence','place_of_birth'
-  ],
-  "البيانات المالية": [
-    'bank','bank_branch'
-  ]
-};
+  const monthSelect = document.getElementById('dob_month');
+  const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+  months.forEach(m => monthSelect.options.add(new Option(m, m)));
 
-const labels = {
-  educational_id:'الرقم التعليمي', full_name:'الاسم الكامل', national_id:'الرقم الوطني',
-  gender:'الجنس', date_of_birth:'تاريخ الميلاد', marital_status:'الحالة الاجتماعية', financial_number:'الرقم المالي',
-  mothers_name:'اسم الأم', nationality:'الجنسية',
-  graduated_university:'الجامعة', graduation_date:'تاريخ التخرج', education_type:'نوع التعليم', academic_qualification:'المؤهل', specialization:'التخصص', institution_name:'المؤسسة التعليمية',
-  employment_type:'نوع الوظيفة', appointment_year:'سنة التعيين', date_of_obtaining_grade:'تاريخ الحصول على الدرجة', start_date:'تاريخ المباشرة', employment_status:'حالة الوظيفة', appointment_grade:'درجة التعيين', current_grade:'الدرجة الحالية', job_title:'المسمى الوظيفي', place_of_residence:'مكان الإقامة', place_of_birth:'مكان الميلاد',
-  bank:'المصرف', bank_branch:'فرع المصرف'
-};
+  const yearSelect = document.getElementById('dob_year');
+  const currentYear = new Date().getFullYear();
+  for (let i = currentYear - 18; i >= 1950; i--) yearSelect.options.add(new Option(i, i));
 
-async function search() {
-  const value = document.getElementById('idinta').value.trim();
-  const result = document.getElementById('result');
-  const status = document.getElementById('status');
+  const supabaseClient = supabase.createClient(
+    'https://jujcyvfbwqigsogqzdmy.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1amN5dmZid3FpZ3NvZ3F6ZG15Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY1OTg4MzYsImV4cCI6MjA4MjE3NDgzNn0.M4oxRBsS8EdrCiAhIP2XV7SmS8vDcfoCGoFzyjF7Ndk'
+  );
 
-  result.innerHTML = '';
-  status.textContent = 'جاري البحث...';
+  const groups = {
+    "البيانات الشخصية": ['full_name', 'national_id', 'gender', 'date_of_birth', 'marital_status', 'mothers_name', 'nationality'],
+    "البيانات العلمية": ['graduated_university', 'graduation_date', 'education_type', 'academic_qualification', 'specialization', 'institution_name'],
+    "البيانات الوظيفية": ['employment_type', 'appointment_year', 'start_date', 'employment_status', 'job_title', 'appointment_grade', 'current_grade', 'date_of_obtaining_grade', 'place_of_residence', 'place_of_birth'],
+    "البيانات المالية": ['bank', 'bank_branch']
+  };
 
-  const { data } = await supabaseClient
-    .from('employees')
-    .select('*')
-    .eq('national_id', value)
-    .limit(1);
+  const labels = {
+    full_name: 'الاسم الكامل', national_id: 'الرقم الوطني', gender: 'الجنس', date_of_birth: 'تاريخ الميلاد',
+    marital_status: 'الحالة الاجتماعية', mothers_name: 'اسم الأم', nationality: 'الجنسية',
+    graduated_university: 'الجامعة', graduation_date: 'تاريخ التخرج', education_type: 'نوع التعليم',
+    academic_qualification: 'المؤهل', specialization: 'التخصص', institution_name: 'المؤسسة التعليمية',
+    employment_type: 'نوع الوظيفة', appointment_year: 'سنة التعيين', date_of_obtaining_grade: 'تاريخ الدرجة',
+    start_date: 'تاريخ المباشرة', employment_status: 'حالة الوظيفة', appointment_grade: 'درجة التعيين',
+    current_grade: 'الدرجة الحالية', job_title: 'المسمى الوظيفي', place_of_residence: 'مكان الإقامة',
+    place_of_birth: 'مكان الميلاد', bank: 'المصرف', bank_branch: 'فرع المصرف'
+  };
 
-  if (!data || data.length === 0) {
-    status.textContent = 'لا توجد بيانات';
-    return;
+  async function search() {
+    const nid = document.getElementById('national_id').value.trim();
+    const day = document.getElementById('dob_day').value;
+    const month = document.getElementById('dob_month').value;
+    const year = document.getElementById('dob_year').value;
+    const status = document.getElementById('status');
+    const resultDiv = document.getElementById('result');
+
+    if (!nid || !day || !month || !year) {
+      status.innerHTML = '<div class="error">يرجى إدخال الرقم الوطني وتاريخ الميلاد كاملاً</div>';
+      return;
+    }
+
+    const selectedDob = `<LaTex>${year}-$</LaTex>{month}-${day}`;
+    resultDiv.innerHTML = '';
+    status.innerHTML = '<div class="loading">جاري التحقق من البيانات...</div>';
+
+    try {
+      const { data, error } = await supabaseClient
+        .from('employees')
+        .select('*')
+        .eq('national_id', nid)
+        .eq('date_of_birth', selectedDob)
+        .limit(1);
+
+      if (error) throw error;
+
+      if (!data || data.length === 0) {
+        status.innerHTML = '<div class="error">عذراً، البيانات المدخلة غير صحيحة أو غير موجودة</div>';
+        return;
+      }
+
+      const row = data[0];
+      status.innerHTML = '';
+
+      let html = '';
+      for (const section in groups) {
+        html += `<div class="section"><h3>${section}</h3><table>`;
+        groups[section].forEach(key => {
+          html += `<tr><th><LaTex>${labels[key] || key}</th><td>$</LaTex>{row[key] ?? '---'}</td></tr>`;
+        });
+        html += '</table></div>';
+      }
+      resultDiv.innerHTML = html;
+
+    } catch (err) {
+      status.innerHTML = '<div class="error">حدث خطأ أثناء الاتصال بقاعدة البيانات</div>';
+    }
   }
-
-  const row = data[0];
-  status.textContent = '';
-
-  let html = '';
-  for (const section in groups) {
-    html += `<div class="section"><h3>${section}</h3><table>`;
-    groups[section].forEach(key => {
-      html += `
-        <tr>
-          <th>${labels[key] || key}</th>
-          <td>${row[key] ?? ''}</td>
-        </tr>
-      `;
-    });
-    html += '</table></div>';
-  }
-
-  result.innerHTML = html;
-}
 </script>
-
 </body>
 </html>
-
-
