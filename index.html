@@ -121,7 +121,6 @@
     status.innerHTML = '<div class="loading">جاري البحث...</div>';
 
     try {
-      // البحث بالرقم الوطني أولاً
       const { data, error } = await supabaseClient
         .from('employees')
         .select('*')
@@ -134,14 +133,20 @@
         return;
       }
 
-      // التحقق من تاريخ الميلاد برمجياً لتجنب مشاكل التنسيق (الفواصل والمسافات)
+      // التحقق من تاريخ الميلاد بطريقة مرنة جداً (تتجاوز مشاكل الأصفار والفواصل)
       const userRecord = data.find(row => {
-        const dbDob = row.date_of_birth || "";
-        // استخراج الأرقام فقط من تاريخ الميلاد في قاعدة البيانات
-        const dbNumbers = dbDob.replace(/\D/g, ''); 
-        // الأرقام التي اختارها المستخدم
-        const userNumbers = `<LaTex>${year}$</LaTex>{month}${day}`;
-        return dbNumbers === userNumbers;
+        const dbDob = (row.date_of_birth || "").toString();
+        const dbNumbers = dbDob.replace(/\D/g, '');
+        const userNumbers = `<LaTex>${year}$</LaTex>{month}<LaTex>${day}`;
+        const userNumbersAlt = `$</LaTex>{year}<LaTex>${parseInt(month)}$</LaTex>{parseInt(day)}`; // بدون أصفار بادئة
+
+        const matchNormal = dbNumbers === userNumbers;
+        const matchAlt = dbNumbers === userNumbersAlt;
+        const matchIncludes = dbDob.includes(year) && 
+                             (dbDob.includes(month) || dbDob.includes(parseInt(month).toString())) && 
+                             (dbDob.includes(day) || dbDob.includes(parseInt(day).toString()));
+        
+        return matchNormal || matchAlt || matchIncludes;
       });
 
       if (!userRecord) {
@@ -152,9 +157,9 @@
       status.innerHTML = '';
       let html = '';
       for (const section in groups) {
-        html += `<div class="section"><h3>${section}</h3><table>`;
+        html += `<div class="section"><h3><LaTex>${section}</h3><table>`;
         groups[section].forEach(key => {
-          html += `<tr><th><LaTex>${labels[key] || key}</th><td>$</LaTex>{userRecord[key] ?? '---'}</td></tr>`;
+          html += `<tr><th>$</LaTex>{labels[key] || key}</th><td>${userRecord[key] ?? '---'}</td></tr>`;
         });
         html += '</table></div>';
       }
