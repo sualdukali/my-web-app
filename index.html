@@ -92,7 +92,8 @@
     "البيانات الشخصية": ['full_name', 'national_id', 'gender', 'date_of_birth', 'marital_status', 'mothers_name', 'nationality'],
     "البيانات العلمية": ['graduated_university', 'graduation_date', 'education_type', 'academic_qualification', 'specialization', 'institution_name'],
     "البيانات الوظيفية": ['employment_type', 'appointment_year', 'start_date', 'employment_status', 'job_title', 'appointment_grade', 'current_grade', 'date_of_obtaining_grade', 'place_of_residence', 'place_of_birth'],
-    "البيانات المالية": ['bank', 'bank_branch']
+    "البيانات المالية": ['bank', 'bank_branch'],
+    "ملاحظات إضافية": ['Note']
   };
 
   const labels = {
@@ -103,7 +104,7 @@
     employment_type: 'نوع الوظيفة', appointment_year: 'سنة التعيين', date_of_obtaining_grade: 'تاريخ الدرجة',
     start_date: 'تاريخ المباشرة', employment_status: 'حالة الوظيفة', appointment_grade: 'درجة التعيين',
     current_grade: 'الدرجة الحالية', job_title: 'المسمى الوظيفي', place_of_residence: 'مكان الإقامة',
-    place_of_birth: 'مكان الميلاد', bank: 'المصرف', bank_branch: 'فرع المصرف'
+    place_of_birth: 'مكان الميلاد', bank: 'المصرف', bank_branch: 'فرع المصرف', Note: 'ملاحظات'
   };
 
   async function search() {
@@ -159,7 +160,6 @@
       status.innerHTML = '';
       let finalHtml = '';
       
-      // بناء الجدول بطريقة تقليدية ومضمونة
       for (let groupName in groups) {
         let sectionHtml = '<div class="section"><h3>' + groupName + '</h3><table>';
         let fields = groups[groupName];
@@ -185,4 +185,3 @@
 </script>
 </body>
 </html>
-
