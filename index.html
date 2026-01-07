@@ -133,12 +133,11 @@
         return;
       }
 
-      // التحقق من تاريخ الميلاد بطريقة مرنة جداً (تتجاوز مشاكل الأصفار والفواصل)
       const userRecord = data.find(row => {
         const dbDob = (row.date_of_birth || "").toString();
         const dbNumbers = dbDob.replace(/\D/g, '');
-        const userNumbers = `<LaTex>${year}$</LaTex>{month}<LaTex>${day}`;
-        const userNumbersAlt = `$</LaTex>{year}<LaTex>${parseInt(month)}$</LaTex>{parseInt(day)}`; // بدون أصفار بادئة
+        const userNumbers = `${year}<LaTex>${month}$</LaTex>{day}`;
+        const userNumbersAlt = `<LaTex>${year}$</LaTex>{parseInt(month)}${parseInt(day)}`;
 
         const matchNormal = dbNumbers === userNumbers;
         const matchAlt = dbNumbers === userNumbersAlt;
@@ -157,9 +156,9 @@
       status.innerHTML = '';
       let html = '';
       for (const section in groups) {
-        html += `<div class="section"><h3><LaTex>${section}</h3><table>`;
+        html += '<div class="section"><h3>' + section + '</h3><table>';
         groups[section].forEach(key => {
-          html += `<tr><th>$</LaTex>{labels[key] || key}</th><td>${userRecord[key] ?? '---'}</td></tr>`;
+          html += '<tr><th>' + (labels[key] || key) + '</th><td>' + (userRecord[key] ?? '---') + '</td></tr>';
         });
         html += '</table></div>';
       }
